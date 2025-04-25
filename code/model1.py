@@ -11,7 +11,7 @@ from sklearn.ensemble        import RandomForestClassifier
 
 # Loading data
 features_df  = pd.read_csv("../result/features1.csv")
-clinical_df  = pd.read_csv("../dataset1/clinical1.csv")
+clinical_df  = pd.read_csv("../testdata/dataset1/clinical1.csv")
 labels_df    = clinical_df[["PatientID", "deadstatus.event"]].dropna()
 
 # Return F1 and AUC

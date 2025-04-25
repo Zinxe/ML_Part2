@@ -11,19 +11,13 @@
 
 cd "${SLURM_SUBMIT_DIR}"
 
-# install conda
-if [ ! -d "${WORK}/miniforge3" ]; then
-    echo "Installing Miniforge to ${WORK}/miniforge3..."
-    bash installConda.sh
-fi
-echo "Sourcing Conda init..."
+# 1. set up environment
+echo "Activating Conda environment..."
+source ~/installConda.sh
 source ~/initConda.sh
 
-# activate enviroment
-echo "Creating Conda env 'multimodal' if needed..."
-mamba env create -f mdhds2025_environment.yml -y 2>/dev/null || true
-echo "Activating 'multimodal'..."
-mamba activate multimodal
+mamba env create -f environment.yml
+mamba activate mdhds2025
 
 mkdir -p slurm_logs
 mkdir -p result

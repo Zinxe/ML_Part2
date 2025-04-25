@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 
 # Rnaseq
 # Read in and transpose
-fn_in  = "../dataset2/rnaseq.txt"
+fn_in  = "../testdata/dataset2/rnaseq.txt"
 fn_out = "../result/rnaseq_processed.csv"
 os.makedirs(os.path.dirname(fn_out), exist_ok=True)
 
@@ -45,7 +45,7 @@ print("Completed,saved in:", fn_out)
 
 # clinical2
 # Loading
-clin = pd.read_csv("../dataset2/clinical2.csv")
+clin = pd.read_csv("../testdata/dataset2/clinical2.csv")
 
 # Clear useless variables
 drop_cols = [

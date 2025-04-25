@@ -94,7 +94,7 @@ def load_aligned_ct_and_mask(patient_folder, target_spacing=(1.5, 1.5, 1.5)):
     # output
     return image, mask, target_spacing
 
-base_dir = "../dataset2"
+base_dir = "../testdata/dataset2"
 
 for patient_id in sorted(os.listdir(base_dir)):
     patient_path = os.path.join(base_dir, patient_id)
@@ -224,7 +224,7 @@ def _calculate_glcm2(img, mask, nbins):
 import os
 import pandas as pd
 
-base_dir = "../dataset2"
+base_dir = "../testdata/dataset2"
 all_features = []
 
 for patient_id in sorted(os.listdir(base_dir)):
@@ -250,7 +250,7 @@ import os
 import pandas as pd
 import numpy as np
 
-base_dir = "../dataset2"
+base_dir = "../testdata/dataset2"
 all_features = []
 
 for patient_id in sorted(os.listdir(base_dir)):
