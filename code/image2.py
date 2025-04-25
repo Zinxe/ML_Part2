@@ -94,7 +94,7 @@ def load_aligned_ct_and_mask(patient_folder, target_spacing=(1.5, 1.5, 1.5)):
     # output
     return image, mask, target_spacing
 
-base_dir = "../dataset1"
+base_dir = "../dataset2"
 
 for patient_id in sorted(os.listdir(base_dir)):
     patient_path = os.path.join(base_dir, patient_id)
@@ -224,11 +224,11 @@ def _calculate_glcm2(img, mask, nbins):
 import os
 import pandas as pd
 
-base_dir = "../dataset1"
+base_dir = "../dataset2"
 all_features = []
 
 for patient_id in sorted(os.listdir(base_dir)):
-    if not patient_id.startswith("LUNG1-"):
+    if not patient_id.startswith("R01-"):
         continue
 
     patient_path = os.path.join(base_dir, patient_id)
@@ -250,11 +250,11 @@ import os
 import pandas as pd
 import numpy as np
 
-base_dir = "../dataset1"
+base_dir = "../dataset2"
 all_features = []
 
 for patient_id in sorted(os.listdir(base_dir)):
-    if not patient_id.startswith("LUNG1-"):
+    if not patient_id.startswith("R01-"):
         continue
 
     patient_path = os.path.join(base_dir, patient_id)
@@ -279,5 +279,4 @@ for patient_id in sorted(os.listdir(base_dir)):
 output_path = "../result/combined_features.csv"
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 df = pd.DataFrame(all_features)
-df.to_csv("../result/features1.csv", index=False)
-print(f"Done,{len(df)} in total")
+df.to_csv("../result/features2.csv", index=False)

@@ -1,12 +1,26 @@
-name: mdhds2025
+# environment.yml
+name: multimodal
 channels:
   - conda-forge
   - defaults
+
 dependencies:
   - python=3.10
-  - pandas
+
+  # Core scientific Computing
   - numpy
+  - pandas
+  - scipy
+
+  # Machine learning
   - scikit-learn
+
+  # Medical images processing
+  - pydicom
+  - simpleitk
+  - scikit-image
+  - nibabel
+
+  # Visualization
   - matplotlib
   - seaborn
-  - jupyter

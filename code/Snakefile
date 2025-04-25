@@ -1,0 +1,98 @@
+# Snakefile
+import os
+
+RESULT_DIR = "result"
+os.makedirs(RESULT_DIR, exist_ok=True)
+
+rule all:
+    input:
+        f"{RESULT_DIR}/features1.csv",
+        f"{RESULT_DIR}/result1.csv",
+        f"{RESULT_DIR}/rnaseq_processed.csv",
+        f"{RESULT_DIR}/clinical2_processed.csv",
+        f"{RESULT_DIR}/features2.csv",
+        f"{RESULT_DIR}/result2.csv"
+
+# image 1
+rule image1:
+    output:
+        f"{RESULT_DIR}/features1.csv"
+    conda:
+        "environment.yml"
+    resources:
+        mem_mb=64000
+    shell:
+        """
+        python image1.py \
+            && mv ../result/features1.csv {output}
+        """
+
+# model 1
+rule model1:
+    input:
+        features=f"{RESULT_DIR}/features1.csv",
+        clinical="testdata/dataset1/clinical1.csv"
+    output:
+        f"{RESULT_DIR}/result1.csv"
+    conda:
+        "environment.yml"
+    resources:
+        mem_mb=64000
+    shell:
+        """
+        python model1.py \
+            && mv ../result/result1.csv {output}
+        """
+
+# dataclean 2
+rule dataclean2:
+    input:
+        rnaseq_raw="testdata/dataset2/rnaseq.txt",
+        clin_raw ="testdata/dataset2/clinical2.csv"
+    output:
+        rnaseq  =f"{RESULT_DIR}/rnaseq_processed.csv",
+        clinical=f"{RESULT_DIR}/clinical2_processed.csv"
+    conda:
+        "environment.yml"
+    resources:
+        mem_mb=64000
+    shell:
+        """
+        python dataclean2.py \
+            && mv ../result/rnaseq_processed.csv {output.rnaseq} \
+            && mv ../result/clinical2_processed.csv {output.clinical}
+        """
+
+# image 2
+rule image2:
+    input:
+        base_dir="testdata/dataset2"
+    output:
+        f"{RESULT_DIR}/features2.csv"
+    conda:
+        "environment.yml"
+    resources:
+        mem_mb=64000
+    shell:
+        """
+        python image2.py \
+            && mv ../result/features2.csv {output}
+        """
+
+# model 2
+rule model2:
+    input:
+        features=f"{RESULT_DIR}/features2.csv",
+        rnaseq  =f"{RESULT_DIR}/rnaseq_processed.csv",
+        clinical=f"{RESULT_DIR}/clinical2_processed.csv"
+    output:
+        f"{RESULT_DIR}/result2.csv"
+    conda:
+        "environment.yml"
+    resources:
+        mem_mb=64000
+    shell:
+        """
+        python model2.py \
+            && mv ../result/result2.csv {output}
+        """
