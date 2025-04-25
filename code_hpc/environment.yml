@@ -1,0 +1,29 @@
+name: mdhds2025
+channels:
+  - conda-forge
+  - defaults
+  - bioconda
+
+dependencies:
+  - python=3.10
+
+  # Core scientific Computing
+  - numpy
+  - pandas
+  - scipy
+
+  # Machine learning
+  - scikit-learn
+
+  # Medical images processing
+  - pydicom
+  - simpleitk
+  - scikit-image
+  - nibabel
+
+  # Visualization
+  - matplotlib
+  - seaborn
+
+ # Workflow engine
+  - snakemake
