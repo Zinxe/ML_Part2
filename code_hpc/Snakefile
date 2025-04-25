@@ -1,7 +1,9 @@
 # Snakefile
 import os
 
-RESULT_DIR = "result"
+DATA_DIR   = "/user/home/ms13525/scratch/mshds-ml-data-2025"
+CODE_DIR   = "/user/home/vj24383/ML_Part2/code_hpc"
+RESULT_DIR = os.path.join(CODE_DIR, "result")
 os.makedirs(RESULT_DIR, exist_ok=True)
 
 rule all:
@@ -31,7 +33,7 @@ rule image1:
 rule model1:
     input:
         features=f"{RESULT_DIR}/features1.csv",
-        clinical="../testdata/dataset1/clinical1.csv"
+        clinical=f"{DATA_DIR}/dataset1/clinical1.csv"
     output:
         f"{RESULT_DIR}/result1.csv"
     conda:
@@ -47,8 +49,8 @@ rule model1:
 # dataclean 2
 rule dataclean2:
     input:
-        rnaseq_raw="../testdata/dataset2/rnaseq.txt",
-        clin_raw ="../testdata/dataset2/clinical2.csv"
+        rnaseq_raw=f"{DATA_DIR}/dataset2/rnaseq.txt",
+        clin_raw =f"{DATA_DIR}/dataset2/clinical2.csv"
     output:
         rnaseq  =f"{RESULT_DIR}/rnaseq_processed.csv",
         clinical=f"{RESULT_DIR}/clinical2_processed.csv"
@@ -66,7 +68,7 @@ rule dataclean2:
 # image 2
 rule image2:
     input:
-        base_dir="../testdata/dataset2"
+        base_dir=f"{DATA_DIR}/dataset2"
     output:
         f"{RESULT_DIR}/features2.csv"
     conda:
