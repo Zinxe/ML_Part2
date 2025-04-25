@@ -52,7 +52,7 @@ X_clin_only    = X_clin_ohe
 X_all_three    = np.hstack([X_img_scaled, rna_sub.values, X_clin_ohe])
 
 # 7. Model setting
-cv      = StratifiedKFold(n_splits=2, shuffle=True, random_state=42)
+cv      = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 clf     = RandomForestClassifier(n_estimators=100,
                                  min_samples_leaf=3,
                                  random_state=42,
