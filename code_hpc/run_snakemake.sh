@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=snakemake_pipeline
-#SBATCH --partition=standard   
+#SBATCH --partition=hmem
 #SBATCH --nodes=1
-#SBATCH --ntasks=1              
-#SBATCH --cpus-per-task=28      
-#SBATCH --mem=128G              
-#SBATCH --time=7-00:00:00      
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=64G
+#SBATCH --time=7-00:00:00
 #SBATCH --output=slurm_logs/snakemake_%j.out
 #SBATCH --error=slurm_logs/snakemake_%j.err
 
