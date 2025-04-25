@@ -82,3 +82,4 @@ for c in cat_cols:
 # Save result
 os.makedirs("../result", exist_ok=True)
 clin.to_csv("../result/clinical2_processed.csv")
+

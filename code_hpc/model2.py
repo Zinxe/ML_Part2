@@ -42,8 +42,41 @@ pre_clin = ColumnTransformer([
 
 X_clin_ohe = pre_clin.fit_transform(clin_feats)  # shape = (N, n_clin_ohe)
 
+# numpy array turn to DataFrame
+feat_names = (
+    num_cols +
+    pre_clin.named_transformers_["cat"]
+            .named_steps["ohe"]
+            .get_feature_names_out(cat_cols)
+            .tolist()
+)
+df_clin_ohe = pd.DataFrame(
+    X_clin_ohe,
+    index=clin_feats.index,
+    columns=feat_names
+)
+
 # Standardization of imaging
 X_img_scaled = StandardScaler().fit_transform(img_sub.values)
+
+# A list of Top-10 clinical features was defined
+top10 = [
+    "Days between CT and surgery",
+    "Age at Histological Diagnosis",
+    "Weight (lbs)",
+    "Pack Years",
+    "Quit Smoking Year",
+    "%GG_0%",
+    "Gender_Male",
+    "Gender_Female",
+    "Pathological T stage_T2b",
+    "Pathological N stage_N2"
+]
+
+# The matrix corresponding to Top-10 features is extracted
+# Joint set containing only Top-10 clinical + other modalities is constructed
+X_clin_top10   = df_clin_ohe[top10].values
+X_all_top10    = np.hstack([X_img_scaled, rna_sub.values, X_clin_top10])
 
 # Construct four feature sets
 X_img_only     = X_img_scaled
@@ -80,8 +113,8 @@ def eval_model(X, name):
 # Evaluate in sequence
 eval_model(X_img_only,  "Image Only")
 eval_model(X_rna_only,  "RNA Only")
-eval_model(X_clin_only, "Clinical Only")
-eval_model(X_all_three, "Image + RNA + Clinical")
+eval_model(X_clin_top10, "Clinical Only")
+eval_model(X_all_top10, "Image + RNA + Clinical")
 
 # Save as CSV
 df_res = pd.DataFrame(results)
