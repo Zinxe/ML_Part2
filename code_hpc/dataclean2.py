@@ -83,3 +83,58 @@ for c in cat_cols:
 os.makedirs("../result", exist_ok=True)
 clin.to_csv("../result/clinical2_processed.csv")
 
+
+import pandas as pd
+from sklearn.ensemble        import RandomForestClassifier
+from sklearn.preprocessing   import OneHotEncoder
+from sklearn.impute          import SimpleImputer
+from sklearn.compose         import ColumnTransformer
+from sklearn.pipeline        import Pipeline
+
+# Get top 10 clinical features
+# loading
+clin = pd.read_csv("../result/clinical2_processed.csv", index_col="Case ID")
+y    = (clin["Survival Status"] == "Dead").astype(int)
+X    = clin.drop(columns="Survival Status")
+
+num_cols = X.select_dtypes(include=["int64","float64"]).columns.tolist()
+cat_cols = X.select_dtypes(include=["object"]).columns.tolist()
+
+# RF get features
+pre = ColumnTransformer([
+    ("num", SimpleImputer(strategy="median"), num_cols),
+    ("cat", Pipeline([
+        ("imp", SimpleImputer(strategy="most_frequent")),
+        ("ohe", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
+    ]), cat_cols)
+])
+
+pipe = Pipeline([
+    ("prep", pre),
+    ("rf",   RandomForestClassifier(
+                 n_estimators=200,
+                 random_state=42,
+                 n_jobs=-1
+             ))
+])
+
+# train
+pipe.fit(X, y)
+
+# get names
+ohe_feats = pipe.named_steps["prep"] \
+                  .named_transformers_["cat"] \
+                  .named_steps["ohe"] \
+                  .get_feature_names_out(cat_cols).tolist()
+
+all_feats = num_cols + ohe_feats
+
+# Top 10
+importances = pd.Series(
+    pipe.named_steps["rf"].feature_importances_,
+    index=all_feats
+)
+top10 = importances.nlargest(10).index.tolist()
+
+print("Top 10", top10)
+
