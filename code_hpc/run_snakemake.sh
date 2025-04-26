@@ -3,7 +3,7 @@
 #SBATCH --partition=cpu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
+#SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=12:00:00
 #SBATCH --output=slurm_logs/snakemake_%j.out
@@ -16,7 +16,6 @@ echo "Activating Conda environment..."
 source ~/installConda.sh
 source ~/initConda.sh
 
-mamba env create -f environment.yml
 mamba activate mdhds2025
 
 mkdir -p slurm_logs
